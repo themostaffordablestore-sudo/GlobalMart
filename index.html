@@ -1,352 +1,187 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>GlobalMart — Deals You’ll Love</title>
-<style>
-  :root{
-    --brand:#25475A; --brand-2:#1b3341; --accent:#e63946; --ok:#2a9d8f;
-    --bg:#0b1720; --card:#12222c; --muted:#93a3ad; --ring:#0ea5e9;
-  }
-  *{box-sizing:border-box}
-  html,body{margin:0; font-family:system-ui,Segoe UI,Roboto,Arial; color:#e8eef2; background:linear-gradient(180deg,#0b1720 0%, #0f2530 100%) fixed;}
-  a{color:inherit; text-decoration:none}
-  img{display:block; width:100%; height:auto; border-radius:16px}
-  .container{max-width:1180px; margin:0 auto; padding:0 16px}
-
-  /* Header */
-  header{position:sticky; top:0; z-index:20; backdrop-filter:saturate(140%) blur(6px);
-    background:linear-gradient(180deg,rgba(11,23,32,.92),rgba(11,23,32,.78)); border-bottom:1px solid rgba(255,255,255,.06)}
-  .nav{display:flex; align-items:center; justify-content:space-between; padding:14px 0;}
-  .brand{display:flex; gap:10px; align-items:center; font-weight:800; letter-spacing:.2px}
-  .brand-badge{width:34px; height:34px; display:grid; place-items:center; border-radius:12px; background:linear-gradient(135deg,var(--ring),#7c3aed)}
-  .tabs{display:flex; gap:14px; flex-wrap:wrap}
-  .tabs a{padding:8px 12px; border-radius:999px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.08)}
-  .tabs a:hover{background:rgba(255,255,255,.12)}
-  .actions{display:flex; gap:10px; align-items:center}
-  .pill{position:relative; padding:8px 12px; border-radius:999px; background:var(--brand); border:1px solid rgba(255,255,255,.08)}
-  .badge{position:absolute; top:-6px; right:-6px; font-size:12px; background:var(--accent); color:#fff; border-radius:999px; padding:2px 7px; border:2px solid var(--brand)}
-  .ghost{background:transparent; border:1px solid rgba(255,255,255,.18)}
-  button{cursor:pointer; color:inherit; font:inherit}
-
-  /* Hero */
-  .hero{padding:28px 0 14px}
-  .hero .wrap{display:grid; grid-template-columns:1.2fr .8fr; gap:18px}
-  .card{background:var(--card); border:1px solid rgba(255,255,255,.08); border-radius:20px; padding:18px; box-shadow:0 10px 30px rgba(0,0,0,.25)}
-  .title{font-size:clamp(24px,4vw,40px); margin:0 0 10px; line-height:1.12}
-  .muted{color:var(--muted)}
-  .cta{display:flex; gap:10px; margin-top:14px}
-  .btn{padding:12px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.12); background:linear-gradient(180deg,#1b3341,#152734)}
-  .btn-primary{background:linear-gradient(180deg,#0ea5e9,#0284c7); border-color:#0ea5e9; font-weight:700}
-  .btn-ok{background:linear-gradient(180deg,#2dd4bf,#10b981); border-color:#10b981; color:#06221d; font-weight:700}
-
-  /* Section */
-  section{padding:24px 0}
-  h2{margin:0 0 12px; font-size:clamp(18px,3vw,26px)}
-  .grid{display:grid; grid-template-columns:repeat(12,1fr); gap:14px}
-  .product{grid-column:span 12; background:var(--card); border:1px solid rgba(255,255,255,.08); border-radius:18px; padding:14px; display:grid; grid-template-columns:1fr}
-  .product .meta{display:flex; align-items:center; justify-content:space-between; margin-top:10px}
-  .price{display:flex; align-items:center; gap:8px; font-weight:800}
-  .new{color:#ffd166; font-size:18px}
-  .old{text-decoration:line-through; color:#8aa1ad}
-  .stars{color:#ffcc00; font-size:14px}
-  .actions-row{display:flex; gap:8px; margin-top:12px; flex-wrap:wrap}
-  .tiny{font-size:12px; color:var(--muted)}
-  .cap{margin-top:8px; font-size:14px; color:#cfe3ed}
-
-  /* Responsive */
-  @media (min-width:540px){ .product{grid-column:span 6} }
-  @media (min-width:900px){ .product{grid-column:span 3} }
-
-  /* Panels */
-  .panel{position:fixed; top:0; right:-420px; width:min(92vw,380px); height:100dvh; background:#0f1f29; border-left:1px solid rgba(255,255,255,.08); transition:right .28s ease; z-index:50; display:flex; flex-direction:column}
-  .panel.open{right:0}
-  .panel header{position:sticky; top:0; background:#0f1f29; border-bottom:1px solid rgba(255,255,255,.1)}
-  .panel .list{padding:14px; display:flex; flex-direction:column; gap:10px; overflow:auto}
-  .row{display:flex; gap:10px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); padding:10px; border-radius:12px}
-  .row img{width:72px; height:72px; object-fit:cover; border-radius:10px}
-  .row .grow{flex:1}
-  .row .grow b{display:block; margin-bottom:6px}
-  .row .price-mini{color:#ffd166; font-weight:700}
-  .row .x{background:transparent; border:1px solid rgba(255,255,255,.18); border-radius:10px; padding:6px 10px}
-  .panel .footer{margin-top:auto; padding:12px; border-top:1px solid rgba(255,255,255,.08)}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GlobalMart</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+      color: #333;
+    }
+    header {
+      background: #003366;
+      color: #fff;
+      padding: 15px;
+      text-align: center;
+    }
+    nav {
+      background: #00509e;
+      display: flex;
+      justify-content: center;
+      padding: 10px;
+    }
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    .container {
+      padding: 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .product {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .product img {
+      max-width: 100%;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    .price {
+      font-size: 18px;
+      color: #e63946;
+      margin: 10px 0;
+    }
+    button {
+      background: #0077cc;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #005fa3;
+    }
+    .cart {
+      margin-top: 30px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .cart h2 {
+      margin-bottom: 15px;
+    }
+    .cart ul {
+      list-style: none;
+      padding: 0;
+    }
+    .cart ul li {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #ddd;
+    }
+    footer {
+      background: #003366;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
-
-<header>
-  <div class="container nav">
-    <div class="brand">
-      <div class="brand-badge">🛍️</div>
-      <div>GlobalMart</div>
-    </div>
-    <nav class="tabs">
-      <a href="#electronics">Electronics</a>
-      <a href="#clothing">Clothing</a>
-      <a href="#groceries">Groceries</a>
-      <a href="#household">Household</a>
-    </nav>
-    <div class="actions">
-      <button id="wishBtn" class="pill ghost">♥ Wishlist <span id="wishCount" class="badge">0</span></button>
-      <button id="cartBtn" class="pill">🛒 Cart <span id="cartCount" class="badge">0</span></button>
-    </div>
-  </div>
-</header>
-
-<main class="container">
-  <!-- Hero -->
-  <section class="hero">
-    <div class="wrap">
-      <div class="card">
-        <h1 class="title">Shop smart. Save more.</h1>
-        <p class="muted">Hand-picked products across categories — with honest pricing. Add to cart or wishlist now, plug in your affiliate links later.</p>
-        <div class="cta">
-          <a href="#electronics" class="btn btn-primary">Browse Electronics</a>
-          <a href="#clothing" class="btn">Explore Clothing</a>
-          <a href="#groceries" class="btn">Daily Groceries</a>
-        </div>
-      </div>
-      <div class="card">
-        <b>Why shop with GlobalMart?</b>
-        <ul class="tiny" style="margin:8px 0 0 18px; line-height:1.7">
-          <li>Transparent, competitive pricing (you control margins)</li>
-          <li>Clean, responsive UI (mobile-first)</li>
-          <li>Cart & Wishlist with localStorage</li>
-          <li>“Buy Now” buttons ready for your future affiliate links</li>
-        </ul>
-        <div class="cta" style="margin-top:16px">
-          <button class="btn btn-ok" onclick="alert('Add your affiliate link later from data-link attribute!')">How to add link?</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Sections auto-rendered -->
-  <section id="electronics"><h2>Electronics</h2><div class="grid" data-grid="electronics"></div></section>
-  <section id="clothing"><h2>Clothing</h2><div class="grid" data-grid="clothing"></div></section>
-  <section id="groceries"><h2>Groceries</h2><div class="grid" data-grid="groceries"></div></section>
-  <section id="household"><h2>Household</h2><div class="grid" data-grid="household"></div></section>
-</main>
-
-<!-- Cart Panel -->
-<aside id="cartPanel" class="panel" aria-hidden="true">
-  <header class="nav container" style="padding:14px">
-    <div style="font-weight:800">Your Cart</div>
-    <button class="pill ghost" onclick="togglePanel('cartPanel',false)">✕ Close</button>
+  <header>
+    <h1>Welcome to GlobalMart</h1>
+    <p>Your trusted online shopping store</p>
   </header>
-  <div id="cartList" class="list"></div>
-  <div class="footer">
-    <div class="muted tiny">Tip: “Buy Now” buttons inside product cards will use your affiliate link later.</div>
-  </div>
-</aside>
 
-<!-- Wishlist Panel -->
-<aside id="wishPanel" class="panel" aria-hidden="true">
-  <header class="nav container" style="padding:14px">
-    <div style="font-weight:800">Wishlist</div>
-    <button class="pill ghost" onclick="togglePanel('wishPanel',false)">✕ Close</button>
-  </header>
-  <div id="wishList" class="list"></div>
-  <div class="footer">
-    <div class="muted tiny">Move items from wishlist to cart anytime.</div>
-  </div>
-</aside>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#products">Products</a>
+    <a href="#about">About Us</a>
+    <a href="#contact">Contact</a>
+  </nav>
 
-<script>
-/* ---------- Data (sample products) ---------- */
-const products = [
-  /* Electronics */
-  {id:'el-1', cat:'electronics', name:'Wireless ANC Headphones', img:'https://images.unsplash.com/photo-1518449007433-8e2f9f3e3c6b?q=80&w=1200&auto=format&fit=crop', rating:4.7, old:129.99, price:99.99,
-   caption:'Premium noise-cancelling with 30-hour battery life. Perfect for travel and deep work.',
-   link:''},
-  {id:'el-2', cat:'electronics', name:'Smartwatch Series X', img:'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1200&auto=format&fit=crop', rating:4.6, old:199.00, price:159.00,
-   caption:'Track health, calls, and notifications — all day battery.',
-   link:''},
-  {id:'el-3', cat:'electronics', name:'4K Action Camera', img:'https://images.unsplash.com/photo-1519183071298-a2962be96f83?q=80&w=1200&auto=format&fit=crop', rating:4.5, old:149.00, price:119.00,
-   caption:'Adventure-ready 4K60 with waterproof case included.',
-   link:''},
-  {id:'el-4', cat:'electronics', name:'Mechanical Keyboard (RGB)', img:'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1200&auto=format&fit=crop', rating:4.8, old:89.00, price:69.00,
-   caption:'Hot-swap switches, full-RGB, compact layout for faster typing.',
-   link:''},
+  <div class="container">
+    <h2>Best Online Shopping Experience</h2>
+    <p>Shop globally with affordable prices, wide product range, and fast delivery. Trusted by thousands of customers worldwide.</p>
 
-  /* Clothing */
-  {id:'cl-1', cat:'clothing', name:'Classic Men’s Oxford Shirt', img:'https://images.unsplash.com/photo-1520975682037-10c8e3715a13?q=80&w=1200&auto=format&fit=crop', rating:4.6, old:39.00, price:29.00,
-   caption:'Crisp, breathable cotton — dress up or down.',
-   link:''},
-  {id:'cl-2', cat:'clothing', name:'Women’s Athletic Leggings', img:'https://images.unsplash.com/photo-1517341720796-8d3b66d0973e?q=80&w=1200&auto=format&fit=crop', rating:4.7, old:32.00, price:24.00,
-   caption:'Stretchy, squat-proof, and super comfortable.',
-   link:''},
-  {id:'cl-3', cat:'clothing', name:'Unisex Hoodie — Fleece', img:'https://images.unsplash.com/photo-1520975922284-7b683d8d0b0d?q=80&w=1200&auto=format&fit=crop', rating:4.8, old:45.00, price:34.00,
-   caption:'Cozy mid-weight fleece with kangaroo pocket.',
-   link:''},
-  {id:'cl-4', cat:'clothing', name:'Running Shoes — AirLite', img:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200&auto=format&fit=crop', rating:4.5, old:75.00, price:58.00,
-   caption:'Lightweight cushioning for daily miles.',
-   link:''},
-
-  /* Groceries */
-  {id:'gr-1', cat:'groceries', name:'Organic Extra Virgin Olive Oil 1L', img:'https://images.unsplash.com/photo-1546549039-49ec6e1b41d2?q=80&w=1200&auto=format&fit=crop', rating:4.7, old:17.99, price:13.99,
-   caption:'Cold-pressed, rich aroma — perfect for salads & cooking.',
-   link:''},
-  {id:'gr-2', cat:'groceries', name:'Whole Bean Coffee — Medium Roast 1kg', img:'https://images.unsplash.com/photo-1459755486867-b55449bb39ff?q=80&w=1200&auto=format&fit=crop', rating:4.6, old:19.50, price:15.90,
-   caption:'Balanced chocolate & nut notes; freshly roasted.',
-   link:''},
-  {id:'gr-3', cat:'groceries', name:'Raw Almonds 1kg', img:'https://images.unsplash.com/photo-1508061253366-f7da158b6d46?q=80&w=1200&auto=format&fit=crop', rating:4.7, old:12.99, price:9.99,
-   caption:'Crisp California almonds for snacks & baking.',
-   link:''},
-  {id:'gr-4', cat:'groceries', name:'Wildflower Honey 500g', img:'https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=1200&auto=format&fit=crop', rating:4.8, old:11.99, price:9.49,
-   caption:'Unfiltered, naturally sweet — taste the bloom.',
-   link:''},
-
-  /* Household */
-  {id:'hh-1', cat:'household', name:'Microfiber Towel Set (6-pack)', img:'https://images.unsplash.com/photo-1604335399105-a0c5d1d3f3a0?q=80&w=1200&auto=format&fit=crop', rating:4.6, old:18.00, price:13.50,
-   caption:'Ultra-absorbent & quick-dry — everyday essential.',
-   link:''},
-  {id:'hh-2', cat:'household', name:'LED Desk Lamp with USB', img:'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?q=80&w=1200&auto=format&fit=crop', rating:4.7, old:29.00, price:22.00,
-   caption:'Adjustable brightness & angle — perfect for study/work.',
-   link:''},
-  {id:'hh-3', cat:'household', name:'Airtight Food Containers (10)', img:'https://images.unsplash.com/photo-1585238342028-4bbc0435b78b?q=80&w=1200&auto=format&fit=crop', rating:4.6, old:34.00, price:26.00,
-   caption:'Keep pantry fresh & organized, labels included.',
-   link:''},
-  {id:'hh-4', cat:'household', name:'Cordless Handheld Vacuum', img:'https://images.unsplash.com/photo-1609582848247-5a87df7baa3b?q=80&w=1200&auto=format&fit=crop', rating:4.5, old:59.00, price:47.00,
-   caption:'Powerful suction for quick clean-ups anywhere.',
-   link:''},
-];
-
-/* ---------- State ---------- */
-const $ = s => document.querySelector(s);
-const cartKey = 'gm_cart', wishKey = 'gm_wishlist';
-let cart = JSON.parse(localStorage.getItem(cartKey) || '[]');
-let wish = JSON.parse(localStorage.getItem(wishKey) || '[]');
-
-/* ---------- Render Products ---------- */
-function star(r){
-  const full = '★'.repeat(Math.floor(r));
-  const half = (r%1>=.5)?'½':'';
-  return `${full}${half}`.replace('½','☆');
-}
-function productCard(p){
-  const inCart = cart.includes(p.id);
-  const inWish = wish.includes(p.id);
-  return `
-  <article class="product" data-id="${p.id}">
-    <img src="${p.img}" alt="${p.name}">
-    <h3 style="margin:10px 0 0">${p.name}</h3>
-    <div class="meta">
-      <div class="price">
-        <span class="new">$${p.price.toFixed(2)}</span>
-        <span class="old">$${p.old.toFixed(2)}</span>
+    <h2 id="products">Featured Products</h2>
+    <div class="products">
+      <div class="product">
+        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30" alt="Oxford Shirt">
+        <h3>Classic Men's Oxford Shirt</h3>
+        <p class="price">$25</p>
+        <button onclick="addToCart('Classic Men\'s Oxford Shirt', 25)">Add to Cart</button>
       </div>
-      <div class="stars" title="${p.rating} / 5">${'★'.repeat(Math.round(p.rating))}</div>
+      <div class="product">
+        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff" alt="Headphones">
+        <h3>Wireless Bluetooth Headphones</h3>
+        <p class="price">$45</p>
+        <button onclick="addToCart('Wireless Bluetooth Headphones', 45)">Add to Cart</button>
+      </div>
+      <div class="product">
+        <img src="https://images.unsplash.com/photo-1606813902771-9b9e8d6b0c57" alt="Smart Speaker">
+        <h3>Smart Home Speaker</h3>
+        <p class="price">$55</p>
+        <button onclick="addToCart('Smart Home Speaker', 55)">Add to Cart</button>
+      </div>
+      <div class="product">
+        <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f" alt="Wrist Watch">
+        <h3>Stylish Wrist Watch</h3>
+        <p class="price">$35</p>
+        <button onclick="addToCart('Stylish Wrist Watch', 35)">Add to Cart</button>
+      </div>
     </div>
-    <p class="cap">${p.caption}</p>
-    <div class="actions-row">
-      <a href="${p.link||'#'}" class="btn btn-primary buy" data-link="${p.link||''}" onclick="if(!this.dataset.link){event.preventDefault(); alert('Add your affiliate link later: set data-link on this button.');}">Buy Now</a>
-      <button class="btn cart-toggle" data-id="${p.id}">${inCart?'Remove from Cart':'Add to Cart'}</button>
-      <button class="btn ghost wish-toggle" data-id="${p.id}">${inWish?'♥ In Wishlist':'♡ Wishlist'}</button>
+
+    <div class="cart">
+      <h2>Your Cart</h2>
+      <ul id="cart-items"></ul>
+      <p><strong>Total:</strong> $<span id="cart-total">0</span></p>
     </div>
-    <div class="tiny">Avg savings vs typical retail: 10–20% (room for margin).</div>
-  </article>`;
-}
-function renderAll(){
-  ['electronics','clothing','groceries','household'].forEach(cat=>{
-    const grid = document.querySelector(`[data-grid="${cat}"]`);
-    grid.innerHTML = products.filter(p=>p.cat===cat).map(productCard).join('');
-  });
-  updateCounts();
-}
-renderAll();
+  </div>
 
-/* ---------- Interactions ---------- */
-document.addEventListener('click', e=>{
-  const cartBtn = e.target.closest('.cart-toggle');
-  const wishBtn = e.target.closest('.wish-toggle');
+  <footer>
+    <p>© 2025 GlobalMart. All rights reserved.</p>
+  </footer>
 
-  if(cartBtn){
-    const id = cartBtn.dataset.id;
-    if(cart.includes(id)) cart = cart.filter(x=>x!==id); else cart.push(id);
-    localStorage.setItem(cartKey, JSON.stringify(cart));
-    renderAll(); renderCart();
-  }
-  if(wishBtn){
-    const id = wishBtn.dataset.id;
-    if(wish.includes(id)) wish = wish.filter(x=>x!==id); else wish.push(id);
-    localStorage.setItem(wishKey, JSON.stringify(wish));
-    renderAll(); renderWish();
-  }
-});
-
-/* ---------- Panels ---------- */
-$('#cartBtn').addEventListener('click', ()=>togglePanel('cartPanel',true));
-$('#wishBtn').addEventListener('click', ()=>togglePanel('wishPanel',true));
-
-function togglePanel(id, open){
-  const el = document.getElementById(id);
-  if(open){ 
-    if(id==='cartPanel') renderCart(); else renderWish();
-    el.classList.add('open');
-  } else el.classList.remove('open');
-}
-
-function renderCart(){
-  const list = $('#cartList');
-  if(cart.length===0){ list.innerHTML = `<div class="muted" style="padding:14px">Your cart is empty.</div>`; }
-  else {
-    list.innerHTML = cart.map(id=>{
-      const p = products.find(x=>x.id===id);
-      return `<div class="row">
-        <img src="${p.img}" alt="">
-        <div class="grow">
-          <b>${p.name}</b>
-          <div class="price-mini">$${p.price.toFixed(2)}</div>
-          <div class="tiny">${p.caption}</div>
-        </div>
-        <button class="x" onclick="removeFromCart('${p.id}')">Remove</button>
-      </div>`;
-    }).join('');
-  }
-  updateCounts();
-}
-function renderWish(){
-  const list = $('#wishList');
-  if(wish.length===0){ list.innerHTML = `<div class="muted" style="padding:14px">Your wishlist is empty.</div>`; }
-  else {
-    list.innerHTML = wish.map(id=>{
-      const p = products.find(x=>x.id===id);
-      return `<div class="row">
-        <img src="${p.img}" alt="">
-        <div class="grow">
-          <b>${p.name}</b>
-          <div class="price-mini">$${p.price.toFixed(2)}</div>
-          <div class="tiny">${p.caption}</div>
-        </div>
-        <div style="display:flex;gap:8px">
-          <button class="x" onclick="moveWishToCart('${p.id}')">Add to Cart</button>
-          <button class="x" onclick="removeFromWish('${p.id}')">Remove</button>
-        </div>
-      </div>`;
-    }).join('');
-  }
-  updateCounts();
-}
-function removeFromCart(id){ cart = cart.filter(x=>x!==id); localStorage.setItem(cartKey, JSON.stringify(cart)); renderAll(); renderCart(); }
-function removeFromWish(id){ wish = wish.filter(x=>x!==id); localStorage.setItem(wishKey, JSON.stringify(wish)); renderAll(); renderWish(); }
-function moveWishToCart(id){
-  if(!cart.includes(id)) cart.push(id);
-  wish = wish.filter(x=>x!==id);
-  localStorage.setItem(cartKey, JSON.stringify(cart));
-  localStorage.setItem(wishKey, JSON.stringify(wish));
-  renderAll(); renderCart(); renderWish();
-}
-function updateCounts(){
-  $('#cartCount').textContent = cart.length;
-  $('#wishCount').textContent = wish.length;
-}
-
-/* ---------- How to add affiliate links later ----------
-   For any product, set its link in the data above (products[].link).
-   The “Buy Now” button automatically uses data-link.
------------------------------------------------------- */
-</script>
+  <script>
+    let cart = [];
+    function addToCart(product, price) {
+      cart.push({ product, price });
+      renderCart();
+    }
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      renderCart();
+    }
+    function renderCart() {
+      let cartItems = document.getElementById("cart-items");
+      let total = 0;
+      cartItems.innerHTML = "";
+      cart.forEach((item, index) => {
+        total += item.price;
+        cartItems.innerHTML += `
+          <li>
+            ${item.product} - $${item.price}
+            <button onclick="removeFromCart(${index})">Remove</button>
+          </li>
+        `;
+      });
+      document.getElementById("cart-total").textContent = total;
+    }
+  </script>
 </body>
 </html>
