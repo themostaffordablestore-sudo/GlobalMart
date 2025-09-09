@@ -1,210 +1,165 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GlobalMart - Affordable Store</title>
+  <title>GlobalMart - Online Store</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f4f4f4;
-    }
-    header {
-      background: #2c3e50;
-      color: #fff;
-      padding: 20px;
-      text-align: center;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 32px;
-    }
-    nav {
-      background: #34495e;
-      padding: 10px;
-      text-align: center;
-    }
-    nav a {
-      color: white;
-      margin: 0 15px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    nav a:hover {
-      color: #f39c12;
-    }
-    .section-title {
-      text-align: center;
-      margin: 30px 0 15px;
-      font-size: 24px;
-      color: #2c3e50;
-    }
-    .categories, .products {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-      padding: 0 20px 20px;
-    }
-    .category, .product {
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-      text-align: center;
-      padding: 15px;
-      transition: transform 0.2s;
-    }
-    .category:hover, .product:hover {
-      transform: translateY(-5px);
-    }
-    .category img, .product img {
-      max-width: 100%;
-      height: 180px;
-      object-fit: cover;
-      border-radius: 8px;
-    }
-    .category h3, .product h3 {
-      margin: 10px 0;
-      font-size: 18px;
-      color: #333;
-    }
-    .price {
-      color: #e74c3c;
-      font-size: 16px;
-      margin: 5px 0 10px;
-    }
-    button {
-      background: #27ae60;
-      color: #fff;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 14px;
-    }
-    button:hover {
-      background: #1e8449;
-    }
-    footer {
-      background: #2c3e50;
-      color: white;
-      text-align: center;
-      padding: 15px 10px;
-      margin-top: 30px;
-    }
+    body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f5f5f5; }
+    header { background:#222; color:#fff; padding:1rem; display:flex; justify-content:space-between; align-items:center; }
+    header h1 { margin:0; font-size:1.5rem; }
+    nav a { color:#fff; margin:0 10px; text-decoration:none; }
+    .container { width:90%; max-width:1200px; margin:20px auto; }
+    h2 { margin-top:40px; border-bottom:2px solid #ddd; padding-bottom:10px; }
+    .products { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:20px; margin-top:20px; }
+    .product { background:#fff; border-radius:10px; overflow:hidden; box-shadow:0 2px 5px rgba(0,0,0,0.1); text-align:center; padding:15px; }
+    .product img { width:100%; height:180px; object-fit:cover; border-radius:8px; }
+    .product h3 { font-size:1rem; margin:10px 0; }
+    .product p { color:#555; }
+    .price { font-weight:bold; color:#e63946; }
+    .product button { margin-top:10px; padding:10px 15px; border:none; background:#0077cc; color:#fff; border-radius:5px; cursor:pointer; }
+    .product button:hover { background:#005fa3; }
+    #cart { position:fixed; top:0; right:0; width:300px; height:100%; background:#fff; border-left:2px solid #ddd; padding:20px; overflow-y:auto; box-shadow:-2px 0 5px rgba(0,0,0,0.1); }
+    #cart h2 { margin-top:0; }
+    .cart-item { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; border-bottom:1px solid #eee; padding-bottom:5px; }
+    .cart-item span { font-size:0.9rem; }
+    .cart-item button { background:red; color:#fff; border:none; padding:5px 8px; border-radius:5px; cursor:pointer; font-size:0.8rem; }
+    footer { background:#222; color:#fff; text-align:center; padding:20px; margin-top:40px; }
   </style>
 </head>
 <body>
-
-  <!-- Header -->
   <header>
     <h1>GlobalMart</h1>
-    <p>The Most Affordable Online Store</p>
-  </header>
-
-  <!-- Navigation -->
-  <nav>
-    <a href="#">Home</a>
-    <a href="#">Shop</a>
-    <a href="#">Categories</a>
-    <a href="#">Contact</a>
-  </nav>
-
-  <!-- Categories Section -->
-  <h2 class="section-title">Shop by Categories</h2>
-  <div class="categories">
-    <div class="category">
-      <img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b" alt="Clothing">
-      <h3>Clothing</h3>
-    </div>
-    <div class="category">
-      <img src="https://images.unsplash.com/photo-1508898578281-774ac4893a54" alt="Electronics">
-      <h3>Electronics</h3>
-    </div>
-    <div class="category">
-      <img src="https://images.unsplash.com/photo-1603052875406-7f05c8654f10" alt="Groceries">
-      <h3>Groceries</h3>
-    </div>
-    <div class="category">
-      <img src="https://images.unsplash.com/photo-1615484478073-fad9e19d1cfb" alt="Home & Living">
-      <h3>Home & Living</h3>
-    </div>
+    <nav>
+      <a href="#electronics">Electronics</a>
+      <a href="#fashion">Fashion</a>
+      <a href="#home">Home & Kitchen</a>
+      <a href="#health">Health & Fitness</a>
+    </nav>
+  </header>  <div class="container">
+    <!-- Electronics -->
+    <h2 id="electronics">Electronics</h2>
+    <div class="products">
+      <div class="product">
+        <img src="https://images.pexels.com/photos/821754/pexels-photo-821754.jpeg" alt="4K Action Camera">
+        <h3>4K Action Camera</h3>
+        <p class="price">$99</p>
+        <button onclick="addToCart('4K Action Camera', 99)">Add to Cart</button>
+      </div>
+      <div class="product">
+        <img src="https://images.pexels.com/photos/159376/headphones-headset-audio-equipment-159376.jpeg" alt="Wireless ANC Headphones">
+        <h3>Wireless ANC Headphones</h3>
+        <p class="price">$59</p>
+        <button onclick="addToCart('Wireless ANC Headphones', 59)">Add to Cart</button>
+      </div>
+      <div class="product">
+        <img src="https://images.pexels.com/photos/682933/pexels-photo-682933.jpeg" alt="Smart Speaker">
+        <h3>Smart Speaker</h3>
+        <p class="price">$79</p>
+        <button onclick="addToCart('Smart Speaker', 79)">Add to Cart</button>
+      </div>
+    </div><!-- Fashion -->
+<h2 id="fashion">Fashion</h2>
+<div class="products">
+  <div class="product">
+    <img src="https://images.pexels.com/photos/2983464/pexels-photo-2983464.jpeg" alt="Classic Oxford Shirt">
+    <h3>Classic Oxford Shirt</h3>
+    <p class="price">$25</p>
+    <button onclick="addToCart('Classic Oxford Shirt', 25)">Add to Cart</button>
   </div>
-
-  <!-- Product Section -->
-  <h2 class="section-title">Featured Products</h2>
-  <div class="products">
-
-    <div class="product">
-      <img src="https://images.unsplash.com/photo-1606813902771-9b9e8d6b0c57" alt="Cordless Handheld Vacuum">
-      <h3>Cordless Handheld Vacuum</h3>
-      <p class="price">$49</p>
-      <button>Add to Cart</button>
-    </div>
-
-    <div class="product">
-      <img src="https://images.unsplash.com/photo-1604908177522-f62a50597efd" alt="Airtight Food Containers">
-      <h3>Airtight Food Containers</h3>
-      <p class="price">$29</p>
-      <button>Add to Cart</button>
-    </div>
-
-    <div class="product">
-      <img src="https://images.unsplash.com/photo-1615484478073-fad9e19d1cfb" alt="Microfiber Towel Set">
-      <h3>Microfiber Towel Set</h3>
-      <p class="price">$19</p>
-      <button>Add to Cart</button>
-    </div>
-
-    <div class="product">
-      <img src="https://images.unsplash.com/photo-1603052875406-7f05c8654f10" alt="Organic Extra Virgin Olive Oil">
-      <h3>Organic Extra Virgin Olive Oil</h3>
-      <p class="price">$15</p>
-      <button>Add to Cart</button>
-    </div>
-
-    <div class="product">
-      <img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b" alt="Unisex Hoodie — Fleece">
-      <h3>Unisex Hoodie — Fleece</h3>
-      <p class="price">$35</p>
-      <button>Add to Cart</button>
-    </div>
-
-    <div class="product">
-      <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f" alt="Women’s Athletic Leggings">
-      <h3>Women’s Athletic Leggings</h3>
-      <p class="price">$28</p>
-      <button>Add to Cart</button>
-    </div>
-
-    <div class="product">
-      <img src="https://images.unsplash.com/photo-1520975918314-7b44d3bde3d2" alt="Classic Men’s Oxford Shirt">
-      <h3>Classic Men's Oxford Shirt</h3>
-      <p class="price">$25</p>
-      <button>Add to Cart</button>
-    </div>
-
-    <div class="product">
-      <img src="https://images.unsplash.com/photo-1508898578281-774ac4893a54" alt="4K Action Camera">
-      <h3>4K Action Camera</h3>
-      <p class="price">$99</p>
-      <button>Add to Cart</button>
-    </div>
-
-    <div class="product">
-      <img src="https://images.unsplash.com/photo-1580894908361-9671950330f2" alt="Wireless ANC Headphones">
-      <h3>Wireless ANC Headphones</h3>
-      <p class="price">$59</p>
-      <button>Add to Cart</button>
-    </div>
-
+  <div class="product">
+    <img src="https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg" alt="Unisex Hoodie">
+    <h3>Unisex Hoodie</h3>
+    <p class="price">$35</p>
+    <button onclick="addToCart('Unisex Hoodie', 35)">Add to Cart</button>
   </div>
+  <div class="product">
+    <img src="https://images.pexels.com/photos/6311392/pexels-photo-6311392.jpeg" alt="Women’s Leggings">
+    <h3>Women’s Leggings</h3>
+    <p class="price">$28</p>
+    <button onclick="addToCart('Women’s Leggings', 28)">Add to Cart</button>
+  </div>
+</div>
 
-  <!-- Footer -->
-  <footer>
-    <p>&copy; 2025 GlobalMart. All Rights Reserved.</p>
-  </footer>
+<!-- Home & Kitchen -->
+<h2 id="home">Home & Kitchen</h2>
+<div class="products">
+  <div class="product">
+    <img src="https://images.pexels.com/photos/4108708/pexels-photo-4108708.jpeg" alt="Cordless Handheld Vacuum">
+    <h3>Cordless Handheld Vacuum</h3>
+    <p class="price">$49</p>
+    <button onclick="addToCart('Cordless Handheld Vacuum', 49)">Add to Cart</button>
+  </div>
+  <div class="product">
+    <img src="https://images.pexels.com/photos/5864536/pexels-photo-5864536.jpeg" alt="Airtight Food Containers">
+    <h3>Airtight Food Containers</h3>
+    <p class="price">$29</p>
+    <button onclick="addToCart('Airtight Food Containers', 29)">Add to Cart</button>
+  </div>
+  <div class="product">
+    <img src="https://images.pexels.com/photos/3738341/pexels-photo-3738341.jpeg" alt="Microfiber Towel Set">
+    <h3>Microfiber Towel Set</h3>
+    <p class="price">$19</p>
+    <button onclick="addToCart('Microfiber Towel Set', 19)">Add to Cart</button>
+  </div>
+</div>
 
-</body>
+<!-- Health & Fitness -->
+<h2 id="health">Health & Fitness</h2>
+<div class="products">
+  <div class="product">
+    <img src="https://images.pexels.com/photos/4109990/pexels-photo-4109990.jpeg" alt="Organic Olive Oil">
+    <h3>Organic Olive Oil</h3>
+    <p class="price">$15</p>
+    <button onclick="addToCart('Organic Olive Oil', 15)">Add to Cart</button>
+  </div>
+  <div class="product">
+    <img src="https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg" alt="Yoga Mat">
+    <h3>Yoga Mat</h3>
+    <p class="price">$22</p>
+    <button onclick="addToCart('Yoga Mat', 22)">Add to Cart</button>
+  </div>
+  <div class="product">
+    <img src="https://images.pexels.com/photos/1552252/pexels-photo-1552252.jpeg" alt="Dumbbell Set">
+    <h3>Dumbbell Set</h3>
+    <p class="price">$45</p>
+    <button onclick="addToCart('Dumbbell Set', 45)">Add to Cart</button>
+  </div>
+</div>
+
+  </div>  <!-- Cart -->  <div id="cart">
+    <h2>Your Cart</h2>
+    <div id="cart-items"></div>
+    <h3>Total: $<span id="cart-total">0</span></h3>
+  </div>  <footer>
+    <p>&copy; 2025 GlobalMart. All rights reserved.</p>
+  </footer>  <script>
+    let cart = [];
+
+    function addToCart(name, price) {
+      const item = { name, price };
+      cart.push(item);
+      renderCart();
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      renderCart();
+    }
+
+    function renderCart() {
+      const cartItems = document.getElementById('cart-items');
+      cartItems.innerHTML = '';
+      let total = 0;
+      cart.forEach((item, index) => {
+        total += item.price;
+        cartItems.innerHTML += `
+          <div class="cart-item">
+            <span>${item.name} - $${item.price}</span>
+            <button onclick="removeFromCart(${index})">Remove</button>
+          </div>
+        `;
+      });
+      document.getElementById('cart-total').textContent = total;
+    }
+  </script></body>
 </html>
