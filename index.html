@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GlobalMart - Online Store</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f4f9;
+      color: #333;
+    }
+    header {
+      background: #1a1a1a;
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+    nav {
+      background: #333;
+      display: flex;
+      justify-content: center;
+    }
+    nav a {
+      color: white;
+      padding: 14px 20px;
+      text-decoration: none;
+    }
+    nav a:hover {
+      background: #575757;
+    }
+    .container {
+      padding: 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+    h2 {
+      margin-top: 40px;
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 10px;
+    }
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .product {
+      background: white;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .product img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .price {
+      color: #e63946;
+      font-size: 18px;
+      margin: 10px 0;
+    }
+    .old-price {
+      text-decoration: line-through;
+      color: #777;
+      font-size: 14px;
+    }
+    button {
+      margin: 5px;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .buy { background: #007bff; color: white; }
+    .cart { background: #28a745; color: white; }
+    .remove { background: #dc3545; color: white; }
+    footer {
+      background: #1a1a1a;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 40px;
+    }
+    /* Cart Sidebar */
+    #cartSidebar {
+      position: fixed;
+      right: -400px;
+      top: 0;
+      width: 350px;
+      height: 100%;
+      background: #fff;
+      box-shadow: -2px 0 8px rgba(0,0,0,0.2);
+      padding: 20px;
+      transition: 0.3s;
+      overflow-y: auto;
+      z-index: 1000;
+    }
+    #cartSidebar.active {
+      right: 0;
+    }
+    #cartItems { margin-top: 20px; }
+    .cart-item {
+      border-bottom: 1px solid #ddd;
+      padding: 10px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>GlobalMart</h1>
+  <p>Your trusted online shopping store</p>
+</header>
+
+<nav>
+  <a href="#electronics">Electronics</a>
+  <a href="#fashion">Fashion</a>
+  <a href="#home">Home & Kitchen</a>
+  <a href="javascript:void(0)" onclick="toggleCart()">🛒 Cart</a>
+</nav>
+
+<div class="container">
+
+  <!-- Electronics -->
+  <h2 id="electronics">Electronics</h2>
+  <div class="products">
+    <div class="product">
+      <img src="https://images.pexels.com/photos/5082570/pexels-photo-5082570.jpeg" alt="Wireless Headphones">
+      <h3>Wireless ANC Headphones</h3>
+      <p class="price">$99.99 <span class="old-price">$129.99</span></p>
+      <p>Premium noise-cancelling headphones with 30-hour battery life.</p>
+      <button class="buy">Buy Now</button>
+      <button class="cart" onclick="addToCart('Wireless ANC Headphones',99.99)">Add to Cart</button>
+    </div>
+    <div class="product">
+      <img src="https://images.pexels.com/photos/6078127/pexels-photo-6078127.jpeg" alt="Smartphone">
+      <h3>Latest Smartphone</h3>
+      <p class="price">$699.99 <span class="old-price">$799.99</span></p>
+      <p>Powerful performance with stunning camera features.</p>
+      <button class="buy">Buy Now</button>
+      <button class="cart" onclick="addToCart('Latest Smartphone',699.99)">Add to Cart</button>
+    </div>
+    <div class="product">
+      <img src="https://images.pexels.com/photos/788946/pexels-photo-788946.jpeg" alt="Laptop">
+      <h3>Lightweight Laptop</h3>
+      <p class="price">$999.99 <span class="old-price">$1199.99</span></p>
+      <p>Portable design with high-speed performance for professionals.</p>
+      <button class="buy">Buy Now</button>
+      <button class="cart" onclick="addToCart('Lightweight Laptop',999.99)">Add to Cart</button>
+    </div>
+    <div class="product">
+      <img src="https://images.pexels.com/photos/1279803/pexels-photo-1279803.jpeg" alt="Smartwatch">
+      <h3>Smart Fitness Watch</h3>
+      <p class="price">$149.99 <span class="old-price">$199.99</span></p>
+      <p>Track your fitness and stay connected all day long.</p>
+      <button class="buy">Buy Now</button>
+      <button class="cart" onclick="addToCart('Smart Fitness Watch',149.99)">Add to Cart</button>
+    </div>
+  </div>
+
+  <!-- Fashion -->
+  <h2 id="fashion">Fashion</h2>
+  <div class="products">
+    <div class="product">
+      <img src="https://images.pexels.com/photos/2983464/pexels-photo-2983464.jpeg" alt="Hoodie">
+      <h3>Unisex Hoodie</h3>
+      <p class="price">$39.99 <span class="old-price">$59.99</span></p>
+      <p>Comfortable fleece hoodie for everyday wear.</p>
+      <button class="buy">Buy Now</button>
+      <button class="cart" onclick="addToCart('Unisex Hoodie',39.99)">Add to Cart</button>
+    </div>
+    <div class="product">
+      <img src="https://images.pexels.com/photos/7679720/pexels-photo-7679720.jpeg" alt="Leggings">
+      <h3>Women’s Athletic Leggings</h3>
+      <p class="price">$29.99 <span class="old-price">$49.99</span></p>
+      <p>High-quality stretch leggings perfect for workouts.</p>
+      <button class="buy">Buy Now</button>
+      <button class="cart" onclick="addToCart('Athletic Leggings',29.99)">Add to Cart</button>
+    </div>
+    <div class="product">
+      <img src="https://images.pexels.com/photos/325876/pexels-photo-325876.jpeg" alt="Oxford Shirt">
+      <h3>Classic Men’s Oxford Shirt</h3>
+      <p class="price">$45.99 <span class="old-price">$69.99</span></p>
+      <p>Formal yet comfortable shirt for men.</p>
+      <button class="buy">Buy Now</button>
+      <button class="cart" onclick="addToCart('Oxford Shirt',45.99)">Add to Cart</button>
+    </div>
+  </div>
+
+  <!-- Home & Kitchen -->
+  <h2 id="home">Home & Kitchen</h2>
+  <div class="products">
+    <div class="product">
+      <img src="https://images.pexels.com/photos/4108585/pexels-photo-4108585.jpeg" alt="Vacuum">
+      <h3>Cordless Handheld Vacuum</h3>
+      <p class="price">$79.99 <span class="old-price">$119.99</span></p>
+      <p>Powerful suction in a compact, portable design.</p>
+      <button class="buy">Buy Now</button>
+      <button class="cart" onclick="addToCart('Cordless Vacuum',79.99)">Add to Cart</button>
+    </div>
+    <div class="product">
+      <img src="https://images.pexels.com/photos/4794534/pexels-photo-4794534.jpeg" alt="Containers">
+      <h3>Airtight Food Containers</h3>
+      <p class="price">$24.99 <span class="old-price">$39.99</span></p>
+      <p>Keep your food fresh and organized easily.</p>
+      <button class="buy">Buy Now</button>
+      <button class="cart" onclick="addToCart('Food Containers',24.99)">Add to Cart</button>
+    </div>
+    <div class="product">
+      <img src="https://images.pexels.com/photos/3616732/pexels-photo-3616732.jpeg" alt="Olive Oil">
+      <h3>Organic Extra Virgin Olive Oil</h3>
+      <p class="price">$15.99 <span class="old-price">$22.99</span></p>
+      <p>Pure, organic, cold-pressed olive oil for cooking.</p>
+      <button class="buy">Buy Now</button>
+      <button class="cart" onclick="addToCart('Olive Oil',15.99)">Add to Cart</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- Cart Sidebar -->
+<div id="cartSidebar">
+  <h2>Your Cart</h2>
+  <div id="cartItems"></div>
+  <h3>Total: $<span id="cartTotal">0</span></h3>
+</div>
+
+<footer>
+  <p>© 2025 GlobalMart. All rights reserved.</p>
+</footer>
+
+<script>
+  let cart = [];
+
+  function toggleCart() {
+    document.getElementById("cartSidebar").classList.toggle("active");
+  }
+
+  function addToCart(name, price) {
+    cart.push({name, price});
+    updateCart();
+  }
+
+  function removeFromCart(index) {
+    cart.splice(index, 1);
+    updateCart();
+  }
+
+  function updateCart() {
+    let cartItems = document.getElementById("cartItems");
+    let cartTotal = document.getElementById("cartTotal");
+    cartItems.innerHTML = "";
+    let total = 0;
+    cart.forEach((item, index) => {
+      total += item.price;
+      cartItems.innerHTML += `
+        <div class="cart-item">
+          <span>${item.name} - $${item.price.toFixed(2)}</span>
+          <button class="remove" onclick="removeFromCart(${index})">Remove</button>
+        </div>`;
+    });
+    cartTotal.innerText = total.toFixed(2);
+  }
+</script>
+
+</body>
+</html>
