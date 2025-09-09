@@ -1,165 +1,418 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GlobalMart - Online Store</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>GlobalMart - Affordable Store</title>
   <style>
-    body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f5f5f5; }
-    header { background:#222; color:#fff; padding:1rem; display:flex; justify-content:space-between; align-items:center; }
-    header h1 { margin:0; font-size:1.5rem; }
-    nav a { color:#fff; margin:0 10px; text-decoration:none; }
-    .container { width:90%; max-width:1200px; margin:20px auto; }
-    h2 { margin-top:40px; border-bottom:2px solid #ddd; padding-bottom:10px; }
-    .products { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:20px; margin-top:20px; }
-    .product { background:#fff; border-radius:10px; overflow:hidden; box-shadow:0 2px 5px rgba(0,0,0,0.1); text-align:center; padding:15px; }
-    .product img { width:100%; height:180px; object-fit:cover; border-radius:8px; }
-    .product h3 { font-size:1rem; margin:10px 0; }
-    .product p { color:#555; }
-    .price { font-weight:bold; color:#e63946; }
-    .product button { margin-top:10px; padding:10px 15px; border:none; background:#0077cc; color:#fff; border-radius:5px; cursor:pointer; }
-    .product button:hover { background:#005fa3; }
-    #cart { position:fixed; top:0; right:0; width:300px; height:100%; background:#fff; border-left:2px solid #ddd; padding:20px; overflow-y:auto; box-shadow:-2px 0 5px rgba(0,0,0,0.1); }
-    #cart h2 { margin-top:0; }
-    .cart-item { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; border-bottom:1px solid #eee; padding-bottom:5px; }
-    .cart-item span { font-size:0.9rem; }
-    .cart-item button { background:red; color:#fff; border:none; padding:5px 8px; border-radius:5px; cursor:pointer; font-size:0.8rem; }
-    footer { background:#222; color:#fff; text-align:center; padding:20px; margin-top:40px; }
+    /* Basic reset */
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: Arial, Helvetica, sans-serif; background:#f4f4f4; color:#222; }
+
+    /* Header / Nav */
+    header { background:#2c3e50; color:#fff; padding:16px 18px; display:flex; align-items:center; justify-content:space-between; }
+    header .brand { font-size:20px; font-weight:700; }
+    nav { display:flex; gap:12px; }
+    nav a { color:#fff; text-decoration:none; font-weight:600; font-size:14px; opacity:0.95; }
+    .cart-toggle { background:#ffb703; color:#111; border:none; padding:8px 12px; border-radius:6px; cursor:pointer; font-weight:700; }
+
+    /* Container & Titles */
+    .container { width:95%; max-width:1200px; margin:20px auto; }
+    .section-title { font-size:22px; margin:18px 0 8px; color:#2c3e50; }
+
+    /* Categories grid */
+    .categories { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:16px; margin-bottom:24px; }
+    .category { background:#fff; border-radius:10px; padding:12px; box-shadow:0 2px 8px rgba(0,0,0,0.06); text-align:center; }
+    .category img { width:100%; height:120px; object-fit:cover; border-radius:8px; }
+
+    /* Products grid */
+    .products { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:18px; margin-bottom:36px; }
+    .product { background:#fff; border-radius:10px; padding:12px; box-shadow:0 2px 10px rgba(0,0,0,0.06); text-align:left; display:flex; flex-direction:column; }
+    .product img { width:100%; height:160px; object-fit:cover; border-radius:8px; }
+    .product h3 { margin:10px 0 6px; font-size:16px; color:#1f2d3d; }
+    .product p.desc { margin:0 0 8px; color:#556; font-size:13px; min-height:36px; }
+    .product .price-row { display:flex; align-items:center; justify-content:space-between; margin-top:auto; gap:8px; }
+    .price { color:#e63946; font-weight:700; font-size:16px; }
+    .actions { display:flex; gap:8px; }
+    .btn { border:none; padding:9px 12px; border-radius:8px; cursor:pointer; font-weight:600; }
+    .btn.primary { background:#0077cc; color:#fff; }
+    .btn.ghost { background:#f1f1f1; color:#222; }
+
+    /* Off-canvas cart (fixed) */
+    #cart-panel {
+      position: fixed;
+      right: 0;
+      top: 0;
+      height: 100%;
+      width: 360px;
+      max-width: 95%;
+      background: #fff;
+      box-shadow: -8px 0 24px rgba(0,0,0,0.15);
+      transform: translateX(120%); /* hidden by default */
+      transition: transform 0.28s ease;
+      z-index: 1200;
+      display: flex;
+      flex-direction: column;
+    }
+    /* open class moves it into view */
+    #cart-panel.open { transform: translateX(0); }
+
+    /* cart header */
+    #cart-panel .cart-header { padding:16px; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items:center; }
+    #cart-panel .cart-header h2 { margin:0; font-size:18px; }
+    #cart-panel .cart-close { background:transparent; border:none; font-size:22px; cursor:pointer; }
+
+    /* cart body */
+    #cart-items { padding:12px; overflow:auto; flex:1 1 auto; }
+    .cart-item { display:flex; gap:10px; align-items:center; padding:10px 0; border-bottom:1px dashed #eee; }
+    .cart-item .ci-info { flex:1; }
+    .cart-item .ci-info b { display:block; font-size:14px; }
+    .cart-item .ci-price { color:#e63946; font-weight:700; }
+    .cart-item button.remove { background:#ff6b6b; color:#fff; border:none; padding:6px 8px; border-radius:6px; cursor:pointer; }
+
+    /* cart footer */
+    #cart-panel .cart-footer { padding:12px; border-top:1px solid #eee; }
+    #cart-panel .cart-footer .total { font-weight:800; font-size:18px; margin-bottom:10px; }
+    #cart-panel .cart-footer .checkout { width:100%; padding:10px; background:#27ae60; color:#fff; border:none; border-radius:8px; font-weight:700; cursor:pointer; }
+
+    /* small screens adjustments */
+    @media (max-width:600px) {
+      header { padding:12px; }
+      .product img { height:160px; }
+      #cart-panel { width:100%; max-width:100%; } /* mobile: full width modal */
+    }
   </style>
 </head>
 <body>
+
+  <!-- HEADER -->
   <header>
-    <h1>GlobalMart</h1>
-    <nav>
-      <a href="#electronics">Electronics</a>
-      <a href="#fashion">Fashion</a>
-      <a href="#home">Home & Kitchen</a>
-      <a href="#health">Health & Fitness</a>
-    </nav>
-  </header>  <div class="container">
-    <!-- Electronics -->
-    <h2 id="electronics">Electronics</h2>
-    <div class="products">
-      <div class="product">
-        <img src="https://images.pexels.com/photos/821754/pexels-photo-821754.jpeg" alt="4K Action Camera">
-        <h3>4K Action Camera</h3>
-        <p class="price">$99</p>
-        <button onclick="addToCart('4K Action Camera', 99)">Add to Cart</button>
+    <div class="brand">GlobalMart</div>
+    <div style="display:flex;gap:10px;align-items:center;">
+      <nav>
+        <a href="#electronics">Electronics</a>
+        <a href="#fashion">Fashion</a>
+        <a href="#home">Home</a>
+        <a href="#health">Health</a>
+      </nav>
+      <button class="cart-toggle" id="open-cart">Cart (0)</button>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="container">
+
+    <!-- CATEGORIES -->
+    <h2 class="section-title">Shop by Categories</h2>
+    <div class="categories" aria-hidden="false">
+      <div class="category">
+        <img src="https://images.pexels.com/photos/2983464/pexels-photo-2983464.jpeg" alt="Clothing category">
+        <h3>Clothing</h3>
       </div>
-      <div class="product">
+      <div class="category">
+        <img src="https://images.pexels.com/photos/3738341/pexels-photo-3738341.jpeg" alt="Home & Living">
+        <h3>Home & Living</h3>
+      </div>
+      <div class="category">
+        <img src="https://images.pexels.com/photos/159376/headphones-headset-audio-equipment-159376.jpeg" alt="Electronics">
+        <h3>Electronics</h3>
+      </div>
+      <div class="category">
+        <img src="https://images.pexels.com/photos/4109990/pexels-photo-4109990.jpeg" alt="Health & Fitness">
+        <h3>Health & Fitness</h3>
+      </div>
+    </div>
+
+    <!-- PRODUCTS: Electronics -->
+    <h2 id="electronics" class="section-title">Electronics</h2>
+    <div class="products">
+      <!-- 4K Action Camera -->
+      <article class="product">
+        <img src="https://images.pexels.com/photos/1507555/pexels-photo-1507555.jpeg" alt="4K Action Camera">
+        <h3>4K Action Camera</h3>
+        <p class="desc">Compact 4K action camera with image stabilization and waterproof case.</p>
+        <div class="price-row">
+          <div class="price">$99</div>
+          <div class="actions">
+            <button class="btn primary" onclick="addToCart('4K Action Camera',99)">Add to Cart</button>
+            <button class="btn ghost" onclick="buyNow('4K Action Camera',99)">Buy Now</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Wireless ANC Headphones -->
+      <article class="product">
         <img src="https://images.pexels.com/photos/159376/headphones-headset-audio-equipment-159376.jpeg" alt="Wireless ANC Headphones">
         <h3>Wireless ANC Headphones</h3>
-        <p class="price">$59</p>
-        <button onclick="addToCart('Wireless ANC Headphones', 59)">Add to Cart</button>
-      </div>
-      <div class="product">
-        <img src="https://images.pexels.com/photos/682933/pexels-photo-682933.jpeg" alt="Smart Speaker">
+        <p class="desc">Active noise canceling, long battery life, comfy ear cushions.</p>
+        <div class="price-row">
+          <div class="price">$59</div>
+          <div class="actions">
+            <button class="btn primary" onclick="addToCart('Wireless ANC Headphones',59)">Add to Cart</button>
+            <button class="btn ghost" onclick="buyNow('Wireless ANC Headphones',59)">Buy Now</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Smart Speaker -->
+      <article class="product">
+        <img src="https://images.pexels.com/photos/3747773/pexels-photo-3747773.jpeg" alt="Smart Speaker">
         <h3>Smart Speaker</h3>
-        <p class="price">$79</p>
-        <button onclick="addToCart('Smart Speaker', 79)">Add to Cart</button>
-      </div>
-    </div><!-- Fashion -->
-<h2 id="fashion">Fashion</h2>
-<div class="products">
-  <div class="product">
-    <img src="https://images.pexels.com/photos/2983464/pexels-photo-2983464.jpeg" alt="Classic Oxford Shirt">
-    <h3>Classic Oxford Shirt</h3>
-    <p class="price">$25</p>
-    <button onclick="addToCart('Classic Oxford Shirt', 25)">Add to Cart</button>
-  </div>
-  <div class="product">
-    <img src="https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg" alt="Unisex Hoodie">
-    <h3>Unisex Hoodie</h3>
-    <p class="price">$35</p>
-    <button onclick="addToCart('Unisex Hoodie', 35)">Add to Cart</button>
-  </div>
-  <div class="product">
-    <img src="https://images.pexels.com/photos/6311392/pexels-photo-6311392.jpeg" alt="Women’s Leggings">
-    <h3>Women’s Leggings</h3>
-    <p class="price">$28</p>
-    <button onclick="addToCart('Women’s Leggings', 28)">Add to Cart</button>
-  </div>
-</div>
+        <p class="desc">Voice-enabled smart speaker with rich bass and multiroom support.</p>
+        <div class="price-row">
+          <div class="price">$79</div>
+          <div class="actions">
+            <button class="btn primary" onclick="addToCart('Smart Speaker',79)">Add to Cart</button>
+            <button class="btn ghost" onclick="buyNow('Smart Speaker',79)">Buy Now</button>
+          </div>
+        </div>
+      </article>
+    </div>
 
-<!-- Home & Kitchen -->
-<h2 id="home">Home & Kitchen</h2>
-<div class="products">
-  <div class="product">
-    <img src="https://images.pexels.com/photos/4108708/pexels-photo-4108708.jpeg" alt="Cordless Handheld Vacuum">
-    <h3>Cordless Handheld Vacuum</h3>
-    <p class="price">$49</p>
-    <button onclick="addToCart('Cordless Handheld Vacuum', 49)">Add to Cart</button>
-  </div>
-  <div class="product">
-    <img src="https://images.pexels.com/photos/5864536/pexels-photo-5864536.jpeg" alt="Airtight Food Containers">
-    <h3>Airtight Food Containers</h3>
-    <p class="price">$29</p>
-    <button onclick="addToCart('Airtight Food Containers', 29)">Add to Cart</button>
-  </div>
-  <div class="product">
-    <img src="https://images.pexels.com/photos/3738341/pexels-photo-3738341.jpeg" alt="Microfiber Towel Set">
-    <h3>Microfiber Towel Set</h3>
-    <p class="price">$19</p>
-    <button onclick="addToCart('Microfiber Towel Set', 19)">Add to Cart</button>
-  </div>
-</div>
+    <!-- PRODUCTS: Fashion -->
+    <h2 id="fashion" class="section-title">Fashion</h2>
+    <div class="products">
+      <!-- Classic Oxford Shirt -->
+      <article class="product">
+        <img src="https://images.pexels.com/photos/2983464/pexels-photo-2983464.jpeg" alt="Classic Oxford Shirt">
+        <h3>Classic Men's Oxford Shirt</h3>
+        <p class="desc">Crisp cotton, perfect for casual & office wear — durable and breathable.</p>
+        <div class="price-row">
+          <div class="price">$25</div>
+          <div class="actions">
+            <button class="btn primary" onclick="addToCart('Classic Men\\'s Oxford Shirt',25)">Add to Cart</button>
+            <button class="btn ghost" onclick="buyNow('Classic Men\\'s Oxford Shirt',25)">Buy Now</button>
+          </div>
+        </div>
+      </article>
 
-<!-- Health & Fitness -->
-<h2 id="health">Health & Fitness</h2>
-<div class="products">
-  <div class="product">
-    <img src="https://images.pexels.com/photos/4109990/pexels-photo-4109990.jpeg" alt="Organic Olive Oil">
-    <h3>Organic Olive Oil</h3>
-    <p class="price">$15</p>
-    <button onclick="addToCart('Organic Olive Oil', 15)">Add to Cart</button>
-  </div>
-  <div class="product">
-    <img src="https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg" alt="Yoga Mat">
-    <h3>Yoga Mat</h3>
-    <p class="price">$22</p>
-    <button onclick="addToCart('Yoga Mat', 22)">Add to Cart</button>
-  </div>
-  <div class="product">
-    <img src="https://images.pexels.com/photos/1552252/pexels-photo-1552252.jpeg" alt="Dumbbell Set">
-    <h3>Dumbbell Set</h3>
-    <p class="price">$45</p>
-    <button onclick="addToCart('Dumbbell Set', 45)">Add to Cart</button>
-  </div>
-</div>
+      <!-- Unisex Hoodie -->
+      <article class="product">
+        <img src="https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg" alt="Unisex Hoodie">
+        <h3>Unisex Hoodie — Fleece</h3>
+        <p class="desc">Soft mid-weight fleece, kangaroo pocket, great for layering.</p>
+        <div class="price-row">
+          <div class="price">$35</div>
+          <div class="actions">
+            <button class="btn primary" onclick="addToCart('Unisex Hoodie',35)">Add to Cart</button>
+            <button class="btn ghost" onclick="buyNow('Unisex Hoodie',35)">Buy Now</button>
+          </div>
+        </div>
+      </article>
 
-  </div>  <!-- Cart -->  <div id="cart">
-    <h2>Your Cart</h2>
-    <div id="cart-items"></div>
-    <h3>Total: $<span id="cart-total">0</span></h3>
-  </div>  <footer>
-    <p>&copy; 2025 GlobalMart. All rights reserved.</p>
-  </footer>  <script>
+      <!-- Women's Leggings -->
+      <article class="product">
+        <img src="https://images.pexels.com/photos/6311392/pexels-photo-6311392.jpeg" alt="Women’s Athletic Leggings">
+        <h3>Women’s Athletic Leggings</h3>
+        <p class="desc">Stretchy, squat-proof leggings — breathable fabric for workouts.</p>
+        <div class="price-row">
+          <div class="price">$28</div>
+          <div class="actions">
+            <button class="btn primary" onclick="addToCart('Women\\'s Athletic Leggings',28)">Add to Cart</button>
+            <button class="btn ghost" onclick="buyNow('Women\\'s Athletic Leggings',28)">Buy Now</button>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <!-- PRODUCTS: Home & Kitchen -->
+    <h2 id="home" class="section-title">Home & Kitchen</h2>
+    <div class="products">
+      <!-- Cordless Vacuum -->
+      <article class="product">
+        <img src="https://images.pexels.com/photos/4108708/pexels-photo-4108708.jpeg" alt="Cordless Handheld Vacuum">
+        <h3>Cordless Handheld Vacuum</h3>
+        <p class="desc">Lightweight, powerful suction, great for quick cleanups.</p>
+        <div class="price-row">
+          <div class="price">$49</div>
+          <div class="actions">
+            <button class="btn primary" onclick="addToCart('Cordless Handheld Vacuum',49)">Add to Cart</button>
+            <button class="btn ghost" onclick="buyNow('Cordless Handheld Vacuum',49)">Buy Now</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Airtight Containers -->
+      <article class="product">
+        <img src="https://images.pexels.com/photos/5864536/pexels-photo-5864536.jpeg" alt="Airtight Food Containers">
+        <h3>Airtight Food Containers (10pc)</h3>
+        <p class="desc">Set of stackable airtight containers—keeps pantry fresh & organized.</p>
+        <div class="price-row">
+          <div class="price">$29</div>
+          <div class="actions">
+            <button class="btn primary" onclick="addToCart('Airtight Food Containers',29)">Add to Cart</button>
+            <button class="btn ghost" onclick="buyNow('Airtight Food Containers',29)">Buy Now</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Microfiber Towel Set -->
+      <article class="product">
+        <img src="https://images.pexels.com/photos/3738341/pexels-photo-3738341.jpeg" alt="Microfiber Towel Set">
+        <h3>Microfiber Towel Set (6-pack)</h3>
+        <p class="desc">Ultra absorbent, quick-dry towels for everyday use.</p>
+        <div class="price-row">
+          <div class="price">$19</div>
+          <div class="actions">
+            <button class="btn primary" onclick="addToCart('Microfiber Towel Set',19)">Add to Cart</button>
+            <button class="btn ghost" onclick="buyNow('Microfiber Towel Set',19)">Buy Now</button>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <!-- PRODUCTS: Health & Fitness -->
+    <h2 id="health" class="section-title">Health & Fitness</h2>
+    <div class="products">
+      <!-- Organic Olive Oil -->
+      <article class="product">
+        <img src="https://images.pexels.com/photos/4109990/pexels-photo-4109990.jpeg" alt="Organic Olive Oil">
+        <h3>Organic Extra Virgin Olive Oil 1L</h3>
+        <p class="desc">Cold-pressed, ideal for salads & cooking, rich aroma.</p>
+        <div class="price-row">
+          <div class="price">$15</div>
+          <div class="actions">
+            <button class="btn primary" onclick="addToCart('Organic Extra Virgin Olive Oil 1L',15)">Add to Cart</button>
+            <button class="btn ghost" onclick="buyNow('Organic Extra Virgin Olive Oil 1L',15)">Buy Now</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Yoga Mat -->
+      <article class="product">
+        <img src="https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg" alt="Yoga Mat">
+        <h3>Yoga Mat</h3>
+        <p class="desc">Non-slip, cushioned yoga mat for comfortable workouts.</p>
+        <div class="price-row">
+          <div class="price">$22</div>
+          <div class="actions">
+            <button class="btn primary" onclick="addToCart('Yoga Mat',22)">Add to Cart</button>
+            <button class="btn ghost" onclick="buyNow('Yoga Mat',22)">Buy Now</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Dumbbell Set -->
+      <article class="product">
+        <img src="https://images.pexels.com/photos/1552252/pexels-photo-1552252.jpeg" alt="Dumbbell Set">
+        <h3>Dumbbell Set</h3>
+        <p class="desc">Compact adjustable dumbbells for home workouts.</p>
+        <div class="price-row">
+          <div class="price">$45</div>
+          <div class="actions">
+            <button class="btn primary" onclick="addToCart('Dumbbell Set',45)">Add to Cart</button>
+            <button class="btn ghost" onclick="buyNow('Dumbbell Set',45)">Buy Now</button>
+          </div>
+        </div>
+      </article>
+    </div>
+
+  </main>
+
+  <!-- OFF-CANVAS CART PANEL -->
+  <aside id="cart-panel" aria-hidden="true">
+    <div class="cart-header">
+      <h2>Your Cart</h2>
+      <button class="cart-close" id="close-cart" title="Close">✕</button>
+    </div>
+
+    <div id="cart-items" style="padding:12px; overflow:auto; flex:1 1 auto;"></div>
+
+    <div class="cart-footer">
+      <div class="total">Total: $<span id="cart-total">0</span></div>
+      <button class="checkout" onclick="checkout()">Proceed to Checkout</button>
+    </div>
+  </aside>
+
+  <footer style="background:#2c3e50;color:#fff;padding:16px;text-align:center;margin-top:30px;">
+    <div style="max-width:1100px;margin:0 auto;">&copy; 2025 GlobalMart — All rights reserved.</div>
+  </footer>
+
+  <script>
+    /* Cart logic + UI toggle */
+    const cartToggle = document.getElementById('open-cart');
+    const cartPanel = document.getElementById('cart-panel');
+    const closeCartBtn = document.getElementById('close-cart');
+    const cartItemsEl = document.getElementById('cart-items');
+    const cartTotalEl = document.getElementById('cart-total');
+
     let cart = [];
 
+    function updateCartBadge() {
+      cartToggle.textContent = `Cart (${cart.length})`;
+    }
+
     function addToCart(name, price) {
-      const item = { name, price };
-      cart.push(item);
+      cart.push({ name, price });
       renderCart();
+      // open cart on add for better UX
+      openCart();
     }
 
     function removeFromCart(index) {
-      cart.splice(index, 1);
+      cart.splice(index,1);
       renderCart();
     }
 
-    function renderCart() {
-      const cartItems = document.getElementById('cart-items');
-      cartItems.innerHTML = '';
-      let total = 0;
-      cart.forEach((item, index) => {
-        total += item.price;
-        cartItems.innerHTML += `
-          <div class="cart-item">
-            <span>${item.name} - $${item.price}</span>
-            <button onclick="removeFromCart(${index})">Remove</button>
-          </div>
-        `;
-      });
-      document.getElementById('cart-total').textContent = total;
+    function buyNow(name, price) {
+      // simple buy now behaviour: add then open cart
+      addToCart(name, price);
+      // in real site redirect to checkout or affiliate link
     }
-  </script></body>
+
+    function renderCart() {
+      cartItemsEl.innerHTML = '';
+      let total = 0;
+      if (cart.length === 0) {
+        cartItemsEl.innerHTML = '<p style="color:#666;">Your cart is empty.</p>';
+      } else {
+        cart.forEach((item, idx) => {
+          total += item.price;
+          const div = document.createElement('div');
+          div.className = 'cart-item';
+          div.innerHTML = `
+            <div class="ci-info">
+              <b>${escapeHtml(item.name)}</b>
+              <div class="ci-price">$${item.price}</div>
+            </div>
+            <div>
+              <button class="remove" onclick="removeFromCart(${idx})">Remove</button>
+            </div>
+          `;
+          cartItemsEl.appendChild(div);
+        });
+      }
+      cartTotalEl.textContent = total.toFixed(2);
+      updateCartBadge();
+    }
+
+    function checkout() {
+      if (cart.length === 0) { alert('Your cart is empty. Add products before checkout.'); return; }
+      alert('Proceed to checkout (demo). Total: $' + cart.reduce((s,i)=>s+i.price,0).toFixed(2));
+    }
+
+    // open/close handlers
+    function openCart() {
+      cartPanel.classList.add('open');
+      cartPanel.setAttribute('aria-hidden','false');
+    }
+    function closeCart() {
+      cartPanel.classList.remove('open');
+      cartPanel.setAttribute('aria-hidden','true');
+    }
+
+    cartToggle.addEventListener('click', () => {
+      if (cartPanel.classList.contains('open')) closeCart(); else openCart();
+    });
+    closeCartBtn.addEventListener('click', closeCart);
+
+    // utility: escape text
+    function escapeHtml(text) {
+      return text.replace(/[&<>"']/g, function(m){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]; });
+    }
+
+    // initial render
+    renderCart();
+  </script>
+</body>
 </html>
