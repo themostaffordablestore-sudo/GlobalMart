@@ -3,98 +3,82 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GlobalMart - Dark Modern Store</title>
+  <title>GlobalMart - Modern Dark Store</title>
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
-      margin: 0;
-      font-family: Arial, sans-serif;
       background-color: #121212;
-      color: #f1f1f1;
+      color: #f5f5f5;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-    header {
-      background: #1f1f1f;
-      padding: 15px 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
+    .navbar {
+      background-color: #1f1f1f;
     }
-    header h1 {
-      margin: 0;
+    .navbar-brand {
+      color: #00c3ff !important;
+      font-weight: bold;
       font-size: 22px;
-      color: #00c3ff;
     }
-    nav a {
-      color: #f1f1f1;
-      text-decoration: none;
-      margin: 0 12px;
+    .nav-link {
+      color: #f5f5f5 !important;
+      margin-right: 15px;
+    }
+    .nav-link:hover {
+      color: #00c3ff !important;
+    }
+    .hero {
+      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                  url('https://images.unsplash.com/photo-1515169067865-5387ec356754?auto=format&fit=crop&w=1400&q=80') no-repeat center/cover;
+      height: 60vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: #fff;
+    }
+    .hero h1 {
+      font-size: 3rem;
       font-weight: bold;
     }
-    nav a:hover {
-      color: #00c3ff;
-    }
-    .container {
-      padding: 30px;
-    }
-    h2 {
-      color: #00c3ff;
-      border-left: 4px solid #00c3ff;
+    .category-title {
+      border-left: 5px solid #00c3ff;
       padding-left: 10px;
-      margin-top: 40px;
-    }
-    .products {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 20px;
-      margin-top: 20px;
+      margin: 40px 0 20px;
+      color: #00c3ff;
     }
     .card {
-      background: #1e1e1e;
+      background-color: #1f1f1f;
+      border: none;
       border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.5);
-      transition: transform 0.2s;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
     .card:hover {
       transform: scale(1.03);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.6);
     }
     .card img {
-      width: 100%;
-      height: 180px;
+      height: 200px;
       object-fit: cover;
-    }
-    .card-body {
-      padding: 15px;
-    }
-    .card-body h3 {
-      margin: 0 0 10px;
-      font-size: 18px;
     }
     .price {
       color: #00ff88;
       font-weight: bold;
-      margin-bottom: 10px;
     }
-    .buttons {
-      display: flex;
-      justify-content: space-between;
-    }
-    .btn {
-      padding: 8px 12px;
+    .btn-buy {
+      background: linear-gradient(45deg, #00c3ff, #00ff88);
       border: none;
-      border-radius: 6px;
-      cursor: pointer;
+      color: #fff;
       font-weight: bold;
     }
-    .buy {
-      background: #00c3ff;
+    .btn-cart {
+      background: #333;
       color: #fff;
+      border: none;
     }
-    .cart {
-      background: #00ff88;
-      color: #000;
+    .btn-cart.active {
+      background: #ff4d4d;
     }
     footer {
       background: #1f1f1f;
@@ -104,187 +88,120 @@
       color: #aaa;
     }
   </style>
-  <script>
-    function addToCart(btn) {
-      if (btn.innerText === "Add to Cart") {
-        btn.innerText = "Remove from Cart";
-        btn.style.background = "#ff4d4d";
-        btn.style.color = "#fff";
-      } else {
-        btn.innerText = "Add to Cart";
-        btn.style.background = "#00ff88";
-        btn.style.color = "#000";
-      }
-    }
-  </script>
 </head>
 <body>
-  <header>
-    <h1>GlobalMart</h1>
-    <nav>
-      <a href="#electronics">Electronics</a>
-      <a href="#home">Home & Kitchen</a>
-      <a href="#fashion">Fashion</a>
-      <a href="#health">Health & Beauty</a>
-    </nav>
-  </header>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="#">GlobalMart</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <form class="d-flex ms-auto me-3">
+          <input class="form-control me-2" type="search" placeholder="Search Products">
+          <button class="btn btn-outline-info" type="submit">Search</button>
+        </form>
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="#electronics">Electronics</a></li>
+          <li class="nav-item"><a class="nav-link" href="#home">Home & Kitchen</a></li>
+          <li class="nav-item"><a class="nav-link" href="#fashion">Fashion</a></li>
+          <li class="nav-item"><a class="nav-link" href="#health">Health & Beauty</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-  <div class="container">
+  <!-- Hero Section -->
+  <section class="hero">
+    <div>
+      <h1>Welcome to GlobalMart</h1>
+      <p>Shop the best products at unbeatable prices</p>
+    </div>
+  </section>
+
+  <div class="container my-5">
     <!-- Electronics -->
-    <h2 id="electronics">Electronics</h2>
-    <div class="products">
-      <div class="card">
-        <img src="https://m.media-amazon.com/images/I/71vT0K1F7xL._AC_SL1500_.jpg" alt="">
-        <div class="card-body">
-          <h3>4K Action Camera</h3>
-          <p class="price">$79.99</p>
-          <div class="buttons">
-            <button class="btn buy">Buy Now</button>
-            <button class="btn cart" onclick="addToCart(this)">Add to Cart</button>
+    <h2 id="electronics" class="category-title">Electronics</h2>
+    <div class="row g-4">
+      <!-- Example product -->
+      <div class="col-md-3">
+        <div class="card">
+          <img src="https://m.media-amazon.com/images/I/71vT0K1F7xL._AC_SL1500_.jpg" class="card-img-top">
+          <div class="card-body">
+            <h5 class="card-title">4K Action Camera</h5>
+            <p class="price">$79.99</p>
+            <button class="btn btn-buy btn-sm">Buy Now</button>
+            <button class="btn btn-cart btn-sm" onclick="toggleCart(this)">Add to Cart</button>
           </div>
         </div>
       </div>
-      <div class="card">
-        <img src="https://m.media-amazon.com/images/I/71pG0pKn3rL._AC_SL1500_.jpg" alt="">
-        <div class="card-body">
-          <h3>Wireless ANC Headphones</h3>
-          <p class="price">$129.99</p>
-          <div class="buttons">
-            <button class="btn buy">Buy Now</button>
-            <button class="btn cart" onclick="addToCart(this)">Add to Cart</button>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <img src="https://m.media-amazon.com/images/I/61kGhx6h7xL._AC_SL1500_.jpg" alt="">
-        <div class="card-body">
-          <h3>Cordless Handheld Vacuum</h3>
-          <p class="price">$49.99</p>
-          <div class="buttons">
-            <button class="btn buy">Buy Now</button>
-            <button class="btn cart" onclick="addToCart(this)">Add to Cart</button>
-          </div>
-        </div>
-      </div>
+      <!-- Add 6â€“9 more Electronics products here -->
     </div>
 
     <!-- Home & Kitchen -->
-    <h2 id="home">Home & Kitchen</h2>
-    <div class="products">
-      <div class="card">
-        <img src="https://m.media-amazon.com/images/I/81hZ4l9YFhL._AC_SL1500_.jpg" alt="">
-        <div class="card-body">
-          <h3>Airtight Food Containers</h3>
-          <p class="price">$34.99</p>
-          <div class="buttons">
-            <button class="btn buy">Buy Now</button>
-            <button class="btn cart" onclick="addToCart(this)">Add to Cart</button>
+    <h2 id="home" class="category-title">Home & Kitchen</h2>
+    <div class="row g-4">
+      <div class="col-md-3">
+        <div class="card">
+          <img src="https://m.media-amazon.com/images/I/81hZ4l9YFhL._AC_SL1500_.jpg" class="card-img-top">
+          <div class="card-body">
+            <h5 class="card-title">Airtight Food Containers</h5>
+            <p class="price">$34.99</p>
+            <button class="btn btn-buy btn-sm">Buy Now</button>
+            <button class="btn btn-cart btn-sm" onclick="toggleCart(this)">Add to Cart</button>
           </div>
         </div>
       </div>
-      <div class="card">
-        <img src="https://m.media-amazon.com/images/I/91VJw3tXlwL._AC_SL1500_.jpg" alt="">
-        <div class="card-body">
-          <h3>Microfiber Towel Set</h3>
-          <p class="price">$19.99</p>
-          <div class="buttons">
-            <button class="btn buy">Buy Now</button>
-            <button class="btn cart" onclick="addToCart(this)">Add to Cart</button>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <img src="https://m.media-amazon.com/images/I/81b7lM4sRXL._AC_SL1500_.jpg" alt="">
-        <div class="card-body">
-          <h3>Organic Extra Virgin Olive Oil</h3>
-          <p class="price">$15.99</p>
-          <div class="buttons">
-            <button class="btn buy">Buy Now</button>
-            <button class="btn cart" onclick="addToCart(this)">Add to Cart</button>
-          </div>
-        </div>
-      </div>
+      <!-- Add 6â€“9 more Home products -->
     </div>
 
     <!-- Fashion -->
-    <h2 id="fashion">Fashion</h2>
-    <div class="products">
-      <div class="card">
-        <img src="https://m.media-amazon.com/images/I/71oGhZlF8nL._AC_UL1500_.jpg" alt="">
-        <div class="card-body">
-          <h3>Unisex Hoodie — Fleece</h3>
-          <p class="price">$39.99</p>
-          <div class="buttons">
-            <button class="btn buy">Buy Now</button>
-            <button class="btn cart" onclick="addToCart(this)">Add to Cart</button>
+    <h2 id="fashion" class="category-title">Fashion</h2>
+    <div class="row g-4">
+      <div class="col-md-3">
+        <div class="card">
+          <img src="https://m.media-amazon.com/images/I/71oGhZlF8nL._AC_UL1500_.jpg" class="card-img-top">
+          <div class="card-body">
+            <h5 class="card-title">Unisex Hoodie â€” Fleece</h5>
+            <p class="price">$39.99</p>
+            <button class="btn btn-buy btn-sm">Buy Now</button>
+            <button class="btn btn-cart btn-sm" onclick="toggleCart(this)">Add to Cart</button>
           </div>
         </div>
       </div>
-      <div class="card">
-        <img src="https://m.media-amazon.com/images/I/61p2JHbKXhL._AC_UL1500_.jpg" alt="">
-        <div class="card-body">
-          <h3>Women’s Athletic Leggings</h3>
-          <p class="price">$24.99</p>
-          <div class="buttons">
-            <button class="btn buy">Buy Now</button>
-            <button class="btn cart" onclick="addToCart(this)">Add to Cart</button>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <img src="https://m.media-amazon.com/images/I/81H+CVdzkrL._AC_UL1500_.jpg" alt="">
-        <div class="card-body">
-          <h3>Classic Men’s Oxford Shirt</h3>
-          <p class="price">$29.99</p>
-          <div class="buttons">
-            <button class="btn buy">Buy Now</button>
-            <button class="btn cart" onclick="addToCart(this)">Add to Cart</button>
-          </div>
-        </div>
-      </div>
+      <!-- Add 6â€“9 more Fashion products -->
     </div>
 
     <!-- Health & Beauty -->
-    <h2 id="health">Health & Beauty</h2>
-    <div class="products">
-      <div class="card">
-        <img src="https://m.media-amazon.com/images/I/81N9EJ5RwQL._AC_SL1500_.jpg" alt="">
-        <div class="card-body">
-          <h3>Vitamin C Serum</h3>
-          <p class="price">$19.99</p>
-          <div class="buttons">
-            <button class="btn buy">Buy Now</button>
-            <button class="btn cart" onclick="addToCart(this)">Add to Cart</button>
+    <h2 id="health" class="category-title">Health & Beauty</h2>
+    <div class="row g-4">
+      <div class="col-md-3">
+        <div class="card">
+          <img src="https://m.media-amazon.com/images/I/81N9EJ5RwQL._AC_SL1500_.jpg" class="card-img-top">
+          <div class="card-body">
+            <h5 class="card-title">Vitamin C Serum</h5>
+            <p class="price">$19.99</p>
+            <button class="btn btn-buy btn-sm">Buy Now</button>
+            <button class="btn btn-cart btn-sm" onclick="toggleCart(this)">Add to Cart</button>
           </div>
         </div>
       </div>
-      <div class="card">
-        <img src="https://m.media-amazon.com/images/I/81cJx+Y5HkL._AC_SL1500_.jpg" alt="">
-        <div class="card-body">
-          <h3>Organic Green Tea</h3>
-          <p class="price">$12.99</p>
-          <div class="buttons">
-            <button class="btn buy">Buy Now</button>
-            <button class="btn cart" onclick="addToCart(this)">Add to Cart</button>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <img src="https://m.media-amazon.com/images/I/81k7cB+oZ2L._AC_SL1500_.jpg" alt="">
-        <div class="card-body">
-          <h3>Aloe Vera Gel</h3>
-          <p class="price">$9.99</p>
-          <div class="buttons">
-            <button class="btn buy">Buy Now</button>
-            <button class="btn cart" onclick="addToCart(this)">Add to Cart</button>
-          </div>
-        </div>
-      </div>
+      <!-- Add 6â€“9 more Health products -->
     </div>
   </div>
 
+  <!-- Footer -->
   <footer>
-    <p>© 2025 GlobalMart. All rights reserved.</p>
+    <p>Â© 2025 GlobalMart. All rights reserved.</p>
   </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function toggleCart(btn) {
+      btn.classList.toggle("active");
+      btn.innerText = btn.classList.contains("active") ? "Remove from Cart" : "Add to Cart";
+    }
+  </script>
 </body>
-</html>
+        </html>
